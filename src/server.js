@@ -2,10 +2,10 @@ require("colors");
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { Db } = require("./src/config/index");
-const routes = require("./src/apps/index");
-const responseMetods = require("./src/middleware/responseMetods");
-const errorHandler = require("./src/middleware/errorHandler");
+const { Db } = require("./config/index");
+const routes = require("./apps/index");
+const responseMetods = require("./middleware/responseMetods");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
