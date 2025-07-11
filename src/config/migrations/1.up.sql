@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS "migrations" (
+    "id" SERIAL PRIMARY KEY NOT NULL,
+    "version" SERIAL NOT NULL,
+    "file_name" VARCHAR NOT NULL UNIQUE
+);
