@@ -21,7 +21,7 @@ function handler(callback, schema) {
     });
 
     if (error) {
-      return res.error(req.i18n.t("validationError"), 400, error.details[0].message);
+      return res.error("validationError", 400, error.details[0].message);
     }
 
     req.body = value.body;

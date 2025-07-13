@@ -18,6 +18,10 @@ app.use(responseMetods);
 
 app.use(routes);
 
+app.use(async (req, res) => {
+  return res.error("Route not found", 404);
+});
+
 app.use(errorHandler);
 
 async function start() {
