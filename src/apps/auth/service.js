@@ -26,13 +26,15 @@ async function login(data) {
 
   const token = generateToken(user);
 
+  delete user.password;
+
   return { user, token };
 }
 
 async function getById(data) {
   const result = await authDB.getById([data.id]);
 
-  return result[0];
+  return result;
 }
 
 module.exports = {

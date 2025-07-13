@@ -17,7 +17,7 @@ async function login(params) {
 }
 
 async function getById(params) {
-  const query = `SELECT * FROM users WHERE id = $1 AND is_active = true`;
+  const query = `SELECT id, email FROM users WHERE id = $1 AND is_active = true`;
 
   const result = await db.query(query, params);
 

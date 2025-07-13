@@ -12,10 +12,10 @@ async function login(req, res) {
   return res.success("Login success", 200, result);
 }
 
-async function me(data) {
-  const result = await authService.getById([data.id]);
+async function me(req, res) {
+  const result = await authService.getById({ id: req.user.id });
 
-  return res.success("Login success", 200, result);
+  return res.success("Get me success", 200, result);
 }
 
 module.exports = {
