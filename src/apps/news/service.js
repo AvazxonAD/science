@@ -1,142 +1,60 @@
-const puppeteer = require("puppeteer");
+const newsDB = require("./db");
+const ErrorResponse = require("../../utils/errorResponse");
 
-async function get() {
-  return [
-    {
-      title: "Chorvoq bo‘yida kurort shaharcha qurishmoqchi. Bu – O‘zbekiston tabiatiga xavfmi?",
-      description:
-        "Loyiha asoschisi, ozarboyjonlik tadbirkor Emin Agalarov bu munozaralar ortidan O‘zbekiston mediasi vakillari bilan Bokuda uchrashuv o‘tkazib, savollarga javob qaytardi.",
-      href: "/news/2025/07/11/chorvoq-boyida-kurort-shaharcha-qurishmoqchi-bu-ozbekiston-tabiatiga-xavfmi",
-      orginal_image: "11/X9qWMu6-wk31tP5ho-LUt9mjgYNqXmp5.jpg",
-      image: "https://storage.kun.uz/source/thumbnails/_medium/11/X9qWMu6-wk31tP5ho-LUt9mjgYNqXmp5_medium.jpg",
-      category_name: "O‘zbekiston",
-      category_href: "/news/category/view?slug=uzbekiston",
-      published: "18:59",
-      day: "11 Iyul",
-      time: "18:59",
-      pub_date: "11.07.2025",
-      views_count: 1524,
-      is_ads: false,
-      video_link: null,
-      is_pinned: false,
-      show_image: true,
-      show_desc: true,
-      font_style: "normal",
-      content_type: "default",
-    },
-    {
-      title: "Rubio Lavrov bilan uchrashdi va Moskvaning urushni tugatish bo‘yicha «yangicha yondashuvi» haqida aytdi",
-      description:
-        "Vashington Moskvada Ukraina bilan urushni tugatish bo‘yicha muzokaralarda «moslashuvchanlik yo‘qligidan hafsalasi pir bo‘lgan».",
-      href: "/news/2025/07/10/rubio-lavrov-bilan-ukrainadagi-urushga-barham-berish-boyicha-yol-xaritasini-muhokama-qildi",
-      orginal_image: "11/X-Awro_moqlb9ylumLISyqsfXVRqDKjg.jpg",
-      image: "https://storage.kun.uz/source/thumbnails/_medium/11/X-Awro_moqlb9ylumLISyqsfXVRqDKjg_medium.jpg",
-      category_name: "Jahon",
-      category_href: "/news/category/view?slug=jahon",
-      published: "18:20 / 10.07.2025",
-      day: "10 Iyul",
-      time: "18:20",
-      pub_date: "10.07.2025",
-      views_count: 5585,
-      is_ads: false,
-      video_link: null,
-      is_pinned: false,
-      show_image: true,
-      show_desc: true,
-      font_style: "normal",
-      content_type: "default",
-    },
-    {
-      title: "«PSJ» «Real»ga ham hech qanday imkon qoldirmadi",
-      description:
-        "Teng kurash o‘rniga muxlislar madridliklar jamoasining kamsitilishiga guvoh bo‘lishdi. Dembele amalda «Oltin to‘p» masalasini hal qildi.",
-      href: "/news/2025/07/10/psj-realga-ham-hech-qanday-imkon-qoldirmadi-va-4-ta-javobsiz-gol-urdi",
-      orginal_image: "11/arCs6Knn8BK7FZxE1aHweFtdxg9mXt5E.jpg",
-      image: "https://storage.kun.uz/source/thumbnails/_medium/11/arCs6Knn8BK7FZxE1aHweFtdxg9mXt5E_medium.jpg",
-      category_name: "Sport",
-      category_href: "/news/category/view?slug=sport",
-      published: "08:07 / 10.07.2025",
-      day: "10 Iyul",
-      time: "08:07",
-      pub_date: "10.07.2025",
-      views_count: 12772,
-      is_ads: false,
-      video_link: null,
-      is_pinned: false,
-      show_image: true,
-      show_desc: true,
-      font_style: "normal",
-      content_type: "default",
-    },
-    {
-      title: "Avariyalarni kamaytirish uchun yo‘l infratuzilmasini yaxshilashga jiddiy e’tibor qaratiladi",
-      description:
-        "«Xavfsiz yo‘l va xavfsiz piyoda» respublika jamg‘armasi mablag‘lari birinchi galda avariya o‘choqlari bo‘lgan xavfli uchastkalarni tartibga solishga yo‘naltiriladi. Radarlar orqali budjetga tushadigan mablag‘ning 25 foizi ham shu jamg‘armaga o‘tkaziladi.",
-      href: "/news/2025/07/09/avariyalarni-kamaytirish-uchun-yol-infratuzilmasini-yaxshilashga-jiddiy-etibor-qaratiladi",
-      orginal_image: "11/oMrJvXq1EO86QzUm3mh_NJfQSD8gzJIb.jpg",
-      image: "https://storage.kun.uz/source/thumbnails/_medium/11/oMrJvXq1EO86QzUm3mh_NJfQSD8gzJIb_medium.jpg",
-      category_name: "O‘zbekiston",
-      category_href: "/news/category/view?slug=uzbekiston",
-      published: "15:36 / 09.07.2025",
-      day: "9 Iyul",
-      time: "15:36",
-      pub_date: "09.07.2025",
-      views_count: 3318,
-      is_ads: false,
-      video_link: null,
-      is_pinned: false,
-      show_image: true,
-      show_desc: true,
-      font_style: "normal",
-      content_type: "default",
-    },
-    {
-      title:
-        "Starovoyt o‘zini o‘ldirishi Kurskda mudofaa inshootlari qurilishidagi o‘g‘irliklar bilan bog‘lanmoqda. Bu haqda nimalar ma’lum?",
-      description: "Ushbu ish bo‘yicha kimlar qo‘lga olingan? Tergov versiyasiga ko‘ra qancha pul o‘g‘irlangan?",
-      href: "/news/2025/07/08/starovoyt-ozini-oldirishi-kurskda-mudofaa-inshootlari-qurilishidagi-ogirliklar-bilan-boglanmoqda-bu-haqda-nimalar-malum",
-      orginal_image: "11/fWrHDwhjoaI2aSG-D1kfjA4Q392exH1E.jpg",
-      image: "https://storage.kun.uz/source/thumbnails/_medium/11/fWrHDwhjoaI2aSG-D1kfjA4Q392exH1E_medium.jpg",
-      category_name: "Jahon",
-      category_href: "/news/category/view?slug=jahon",
-      published: "21:16 / 08.07.2025",
-      day: "8 Iyul",
-      time: "21:16",
-      pub_date: "08.07.2025",
-      views_count: 9953,
-      is_ads: false,
-      video_link: null,
-      is_pinned: false,
-      show_image: true,
-      show_desc: true,
-      font_style: "normal",
-      content_type: "default",
-    },
-    {
-      title: "G‘azoliklarni ko‘chirish, Eron va Suriya mavzulari - Tramp va Netanyahu nimalarni muhokama qildi?",
-      description:
-        "Oq uyda Donald Tramp bilan uchrashgan Netanyahu g‘azoliklarni ko‘chirish rejalari haqida gapirdi va AQSh yetakchisini Nobel mukofotiga tavsiya qildi. Tramp esa Eronga berilgan zarbalarni Yaponiyaga tashlangan atom bombasiga qiyosladi. Ayni vaqtda Vashingtonda Netanyahuning tashrifiga qarshi namoyishlar bo‘lib o‘tmoqda, Qatarda esa Hamas bilan muzokaralar davom etmoqda.",
-      href: "/news/2025/07/08/gazoliklarni-kochirish-eronning-sanksiyalari-va-suriya-tramp-va-netanyahu-nimalarni-muhokama-qildi",
-      orginal_image: "11/SugDocHDBFeuFiEBrY58t4s3_sjHemid.jpg",
-      image: "https://storage.kun.uz/source/thumbnails/_medium/11/SugDocHDBFeuFiEBrY58t4s3_sjHemid_medium.jpg",
-      category_name: "Jahon",
-      category_href: "/news/category/view?slug=jahon",
-      published: "19:14 / 08.07.2025",
-      day: "8 Iyul",
-      time: "19:14",
-      pub_date: "08.07.2025",
-      views_count: 4116,
-      is_ads: false,
-      video_link: "/content/video-preview/22856159",
-      is_pinned: false,
-      show_image: true,
-      show_desc: true,
-      font_style: "normal",
-      content_type: "video",
-    },
-  ];
+// CREATE
+async function create(data) {
+  const result = await newsDB.createNews([data.title, data.description, data.image, data.category_name]);
+
+  return result;
+}
+
+// GET ALL
+async function getAll() {
+  const result = await newsDB.getAllNews();
+  return result;
+}
+
+// GET BY ID
+async function getById(data) {
+  const result = await newsDB.getNewsById([data.id]);
+
+  if (!result) {
+    throw new ErrorResponse("News item not found", 404);
+  }
+
+  return result;
+}
+
+// UPDATE
+async function update(data) {
+  const existing = await newsDB.getNewsById([data.id]);
+
+  if (!existing) {
+    throw new ErrorResponse("News item not found", 404);
+  }
+
+  const result = await newsDB.updateNews([data.id, data.title, data.description, data.image, data.category_name]);
+
+  return result;
+}
+
+// DELETE
+async function remove(data) {
+  const existing = await newsDB.getNewsById([data.id]);
+
+  if (!existing) {
+    throw new ErrorResponse("News item not found", 404);
+  }
+
+  const result = await newsDB.deleteNews([data.id]);
+
+  return result;
 }
 
 module.exports = {
-  get,
+  create,
+  getAll,
+  getById,
+  update,
+  remove,
 };

@@ -8,6 +8,7 @@ const router = Router();
 router
   .post("/register", handler(authController.register, authSchema.register()))
   .post("/login", handler(authController.login, authSchema.login()))
+  .get("/users", protect, handler(authController.getUsers))
   .get("/me", protect, handler(authController.me));
 
 module.exports = router;
