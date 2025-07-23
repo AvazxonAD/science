@@ -1,39 +1,46 @@
-const newsService = require("./service");
+const authService = require("./service");
 
-async function create(req, res) {
-  const result = await newsService.create({ ...req.body });
+async function register(req, res) {
+  const checkLogin = await authService.getByLogin({ ...req.body });
+  if (checkLogin) {
+    return res.error("Login already exists", 400);
+  }
 
-  return res.success("News created successfully", 201, result);
+  const checkEmail = await authService.getByEmail({ ...req.body });
+  if (checkEmail) {
+    return res.error("Email already exists", 400);
+  }
+
+  const result = await authService.register({ ...req.body });
+
+  return res.success("Register success", 201, result);
 }
 
-async function getAll(req, res) {
-  const result = await newsService.getAll();
+async function login(req, res) {
+  const result = await authService.login({ ...req.body });
 
-  return res.success("News list fetched", 200, result);
+  return res.success("Login success", 200, result);
 }
 
-async function getById(req, res) {
-  const result = await newsService.getById({ id: +req.params.id });
+async function me(req, res) {
+  const result = await authService.getById({ id: req.user.id });
 
-  return res.success("News item found", 200, result);
+  return res.success("Get me success", 200, result);
 }
 
-async function update(req, res) {
-  const result = await newsService.update({ ...req.body });
+async function getUsers(req, res) {
+  if (!req.user.is_admin) {
+    return res.error("Cannot access", 403);
+  }
 
-  return res.success("News item updated", 200, result);
-}
+  const result = await authService.getUsers({});
 
-async function remove(req, res) {
-  const result = await newsService.remove({ id: +req.params.id });
-
-  return res.success("News item deleted", 200, result);
+  return res.success("Get users success", 200, result);
 }
 
 module.exports = {
-  create,
-  getAll,
-  getById,
-  update,
-  remove,
+  register,
+  login,
+  me,
+  getUsers,
 };
