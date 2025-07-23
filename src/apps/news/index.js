@@ -9,8 +9,8 @@ const router = Router();
 
 router
   .post("/", protect, uploadImage.single("file"), handler(newsController.create, newsSchema.create()))
-  .get("/", protect, handler(newsController.getAll))
-  .get("/:id", protect, handler(newsController.getById, newsSchema.getById()))
+  .get("/", handler(newsController.getAll))
+  .get("/:id", handler(newsController.getById, newsSchema.getById()))
   .put("/:id", protect, uploadImage.single("file"), handler(newsController.update, newsSchema.update()))
   .delete("/:id", protect, handler(newsController.remove, newsSchema.remove()));
 
